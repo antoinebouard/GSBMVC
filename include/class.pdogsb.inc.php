@@ -16,7 +16,7 @@
 
 class PdoGsb{   		
       	private $serveur='mysql:host=localhost';
-      	private $bdd='dbname=gsb_frais';   		
+      	private $bdd='dbname=gsbfrais';   		
       	private $user='userGsb' ;    		
       	private $mdp='secret' ;	
         private $monPdo; //objet de connection à la bdd
@@ -53,9 +53,8 @@ class PdoGsb{
  * @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
 */
 	public function getInfosVisiteur($login, $mdp){
-		$mdp = sha1($mdp);
 		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur 
-		where visiteur.login='$login' and visiteur.mdp='$mdp'";
+		where visiteur.login='$login' and visiteur.mdp='".sha1($mdp)."'";
 		$rs = $this->monPdo->query($req);
 		$ligne = $rs->fetch();
 		return $ligne;
